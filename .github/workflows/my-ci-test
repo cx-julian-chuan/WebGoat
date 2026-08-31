@@ -1,20 +1,36 @@
-name: "Main / Pull requests build1"
-
+name: "testing_1"
 on:
-  pull_request:
-    paths-ignore:
-        - '.txt'
-        - 'LICENSE'
-        - 'docs/**'
-    branches: [  main  ]
-
-push:
-  branches: [  main  ]
-
+    pull_request:
+        paths-ignore:
+            - '.txt'
+            - 'LICENSE'
+            - 'docs/**'
+        branches: [ main ]
+    push:
+        branches:
+            - main
 
 jobs:
-  
-  build:
+    pre-commit:
+        name: Pre-commit check
+        runs-on: ubuntu-latest
+        steps:
+            -   name: Checkout git repository
+                uses: actions/checkout@v7
+            -   name: Setup python
+                uses: actions/setup-python@v7
+                with:
+                    python-version: "3.9"
+            -   name: Setup Java
+                uses: ./.github/actions/java-setup
+                with:
+                    cache: ""
+            -   name: Pre-commit checks
+                uses: pre-commit/action@v3.0.1
+            -   name: pre-commit-c-lite
+                uses: pre-commit-ci/lite-action@v1.1.0
+                if: always()
+    build:
         runs-on: ${{ matrix.os }}
         needs: [ pre-commit ]
         strategy:
