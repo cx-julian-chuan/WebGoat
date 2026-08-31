@@ -1,0 +1,5 @@
+name : "release-build"
+
+on: 
+  pull request
+  
