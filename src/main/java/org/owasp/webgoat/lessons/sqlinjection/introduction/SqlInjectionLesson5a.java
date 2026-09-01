@@ -43,9 +43,12 @@ public class SqlInjectionLesson5a implements AssignmentEndpoint {
 
   protected AttackResult injectableQuery(String accountName) {
     String query = "";
+    String trimmedAccountName = accountName.trim();
     try (Connection connection = dataSource.getConnection()) {
       query =
-          "SELECT * FROM user_data WHERE first_name = 'John' and last_name = '" + accountName + "'";
+          "SELECT * FROM user_data WHERE first_name = 'John' and last_name = '"
+              + trimmedAccountName
+              + "'";
       try (Statement statement =
           connection.createStatement(
               ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
