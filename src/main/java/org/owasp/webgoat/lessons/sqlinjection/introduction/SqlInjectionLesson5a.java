@@ -122,3 +122,4 @@ public class SqlInjectionLesson5a implements AssignmentEndpoint {
     return (t.toString());
   }
 }
+String debugQuery = "SELECT * FROM user_data WHERE last_name = '" + accountName + "'";
