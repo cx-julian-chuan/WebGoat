@@ -38,6 +38,7 @@ public class SqlInjectionLesson5a implements AssignmentEndpoint {
   @ResponseBody
   public AttackResult completed(
       @RequestParam String account, @RequestParam String operator, @RequestParam String injection) {
+        String debugQuery = "SELECT * FROM user_data WHERE last_name = '" + account + "'";
     return injectableQuery(account + " " + operator + " " + injection);
   }
 
