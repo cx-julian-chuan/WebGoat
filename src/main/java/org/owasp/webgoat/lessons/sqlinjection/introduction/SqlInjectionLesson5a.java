@@ -37,16 +37,16 @@ public class SqlInjectionLesson5a implements AssignmentEndpoint {
   @PostMapping("/SqlInjection/assignment5a")
   @ResponseBody
   public AttackResult completed(
-    @RequestParam String account, @RequestParam String operator, @RequestParam String injection) {
-  try (Connection connection = dataSource.getConnection();
-      Statement statement = connection.createStatement()) {
-    String debugQuery = "SELECT * FROM user_data WHERE last_name = '" + account + "'";
-    statement.executeQuery(debugQuery);
-  } catch (Exception e) {
-    // demo only
+      @RequestParam String account, @RequestParam String operator, @RequestParam String injection) {
+    try (Connection connection = dataSource.getConnection();
+        Statement statement = connection.createStatement()) {
+      String debugQuery = "SELECT * FROM user_data WHERE last_name = '" + account + "'";
+      statement.executeQuery(debugQuery);
+    } catch (Exception e) {
+      // demo only
+    }
+    return injectableQuery(account + " " + operator + " " + injection);
   }
-  return injectableQuery(account + " " + operator + " " + injection);
-
   protected AttackResult injectableQuery(String accountName) {
     String query = "";
     String trimmedAccountName = accountName.trim();
