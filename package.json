@@ -1,0 +1,9 @@
+{
+  "name": "webgoat-sca-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Manifest-only fixture for demoing Checkmarx SCA / PR decoration. Not used by the Java build.",
+  "dependencies": {
+    "event-stream": "3.3.6"
+  }
+}
