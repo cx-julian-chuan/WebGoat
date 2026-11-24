@@ -41,7 +41,9 @@ public class WebSecurityConfig {
                         "/plugins/**",
                         "/registration",
                         "/register.mvc",
-                        "/actuator/**")
+                        // Only the health probe (used by the container HEALTHCHECK) is public.
+                        "/actuator/health",
+                        "/actuator/health/**")
                     .permitAll()
                     // Lessons deliver mail by POSTing to the mailbox over HTTP (RestTemplate),
                     // which carries no session, so the receiving endpoint must be public. Reading
@@ -50,6 +52,10 @@ public class WebSecurityConfig {
                     .permitAll()
                     // Administration endpoints: restricted to WEBGOAT_ADMIN only.
                     .requestMatchers("/service/admin/**")
+                    .hasAuthority("WEBGOAT_ADMIN")
+                    // Other actuator endpoints (env, configprops, ...) expose configuration and
+                    // secrets, so they are restricted to administrators.
+                    .requestMatchers("/actuator/**")
                     .hasAuthority("WEBGOAT_ADMIN")
                     .anyRequest()
                     .authenticated())
